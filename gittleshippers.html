@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="geof.css">
+<title></title>
+</head>
+<body>
+    <div id = "line">
+        
+        <script>
+        
+        </script>
+    </div> 
+    <div id="userselection"></div>
+    <div class="container">
+        <script>
+           var xpos = 0; //physcial potion in pixels
+            var ypos = 0;
+            var rowpos = 1; //position of pale block (current aim)
+            var columnpos = 1;
+            var userref = 7; //user input on keyboard
+            var xpos2 = 8; //physical
+            var score = 0;
+            var ypos2 = 8;
+            function pickpos(){
+                rowpos = Math.floor( Math.random() * 3 )+1; //randomises grip position
+                columnpos = Math.floor( Math.random() * 3 )+1;
+                console.log(rowpos, columnpos);
+            }
+            function updatescore(){
+                if (userref == 7){
+                    if (rowpos == 1 && columnpos == 1){
+                        score += 1;
+                        pickpos();
+                    }
+                }
+                if (userref == 8){
+                    if (rowpos == 2 && columnpos == 1){
+                        score += 1;
+                        pickpos();
+                    }
+                }
+                if (userref == 9){
+                    if (rowpos == 3 && columnpos == 1){
+                        score += 1;
+                        pickpos();
+                    }
+                }
+                if (userref == 4){
+                    if (rowpos == 1 && columnpos == 2){
+                        score += 1;
+                        pickpos();
+                    }
+                }
+                if (userref == 5){
+                    if (rowpos == 2 && columnpos == 2){
+                        score += 1;
+                        pickpos();
+                    }
+                }
+                if (userref == 6){
+                    if (rowpos == 3 && columnpos == 2){
+                        score += 1;
+                        pickpos();
+                    }
+                }
+                if (userref == 1){
+                    if (rowpos == 1 && columnpos == 3){
+                        score += 1;
+                        pickpos();
+                    }
+                }
+                if (userref == 2){
+                    if (rowpos == 2 && columnpos == 3){
+                        score += 1;
+                        pickpos();
+                    }
+                }
+                if (userref == 3){
+                    if (rowpos == 3 && columnpos == 3){
+                        score += 1;
+                        pickpos();
+                    }
+                }
+                document.getElementById("scoreboard").innerHTML=
+                `<b>score: ${score}</b>`;
+            }
+            function positionuserselection(userref){
+                if (userref == 7){
+                    xpos2 = (1 * 150) - 142; //8px dif from edge
+                    ypos2 = (1 *150) - 142;
+                }
+                if (userref == 8){
+                    xpos2 = (2 * 150) - 142; //8px dif from edge
+                    ypos2 = (1 *150) - 142;
+                }
+                if (userref == 9){
+                    xpos2 = (3 * 150) - 142; //8px dif from edge
+                    ypos2 = (1 *150) - 142;
+                }
+                if (userref == 4){
+                    xpos2 = (1 * 150) - 142; //8px dif from edge
+                    ypos2 = (2 *150) - 142;
+                }
+                if (userref == 5){
+                    xpos2 = (2 * 150) - 142; //8px dif from edge
+                    ypos2 = (2 *150) - 142;
+                }
+                if (userref == 6){
+                    xpos2 = (3 * 150) - 142; //8px dif from edge
+                    ypos2 = (2 *150) - 142;
+                }
+                if (userref == 1){
+                    xpos2 = (1 * 150) - 142; //8px dif from edge
+                    ypos2 = (3 *150) - 142;
+                }
+                if (userref == 2){
+                    xpos2 = (2 * 150) - 142; //8px dif from edge
+                    ypos2 = (3 *150) - 142;
+                }
+                if (userref == 3){
+                    xpos2 = (3 * 150) - 142; //8px dif from edge
+                    ypos2 = (3 *150) - 142;
+                }
+                userselection.style.left = `${xpos2}px`; //moves user outline thingymajig
+                userselection.style.top = `${ypos2}px`;
+            }
+            function checkinput(){
+                document.addEventListener('keydown', (num) =>{
+                if (num.key == "1"){ //might be more efficient without the if statements
+                    userref = "1";
+                 }
+                 if (num.key == "2"){
+                    userref = "2";
+                 }
+                 if (num.key == "3"){
+                    userref = "3";
+                 }
+                 if (num.key == "4"){
+                    userref = "4";
+                 }
+                 if (num.key == "5"){
+                    userref = "5";
+                 }
+                 if (num.key == "6"){
+                    userref = "6";
+                 }
+                 if (num.key == "7"){
+                    userref = "7";
+                 }
+                 if (num.key == "8"){
+                    userref = "8";
+                 }
+                 if (num.key == "9"){
+                    userref = "9";
+                 }
+                
+
+            } 
+        )
+            }
+           
+
+                
+            function move (row,column){
+                console.log(userref);
+                xpos = (rowpos * 150) - 142; //8px dif from edge
+                ypos = (columnpos *150) - 142;
+                console.log(xpos, ypos);              
+                line.style.left = `${xpos}px`; //moves square
+                line.style.top = `${ypos}px`;
+                
+                
+                //takes in user input
+                checkinput();
+                positionuserselection(userref);
+                updatescore();
+                console.log(score);
+                
+            }
+            const rows = 3;
+            const columns = 3;
+                for (let i = 0; i < rows * columns; i++) { // creates 3x3 grid 
+                    document.write('<div class="item"></div>');
+                } //must be done inside div class of grid
+        setInterval(move, 100) 
+        </script>
+    </div>
+    <div id="scoreboard"></div>
+    </h3> 
+</body>
+</html>
