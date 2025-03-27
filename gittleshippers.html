@@ -14,6 +14,7 @@
     <div id="userselection"></div>
     <div class="container">
         <script>
+            
            var xpos = 0; //physcial potion in pixels
             var ypos = 0;
             var rowpos = 1; //position of pale block (current aim)
@@ -22,10 +23,14 @@
             var xpos2 = 8; //physical
             var score = 0;
             var ypos2 = 8;
+            var time = 2;
+            var miss = 0;
+            var paused = 1;
             function pickpos(){
                 rowpos = Math.floor( Math.random() * 3 )+1; //randomises grip position
                 columnpos = Math.floor( Math.random() * 3 )+1;
                 console.log(rowpos, columnpos);
+                time = 1;
             }
             function updatescore(){
                 if (userref == 7){
@@ -38,52 +43,67 @@
                     if (rowpos == 2 && columnpos == 1){
                         score += 1;
                         pickpos();
+                        document.getElementById("support").innerHTML=`awesome!`;
                     }
                 }
                 if (userref == 9){
                     if (rowpos == 3 && columnpos == 1){
                         score += 1;
                         pickpos();
+                        document.getElementById("support").innerHTML=`awesome!`;
+
                     }
                 }
                 if (userref == 4){
                     if (rowpos == 1 && columnpos == 2){
                         score += 1;
                         pickpos();
+                        document.getElementById("support").innerHTML=`awesome!`;
+
                     }
                 }
                 if (userref == 5){
                     if (rowpos == 2 && columnpos == 2){
                         score += 1;
                         pickpos();
+                        document.getElementById("support").innerHTML=`awesome!`;
+
                     }
                 }
                 if (userref == 6){
                     if (rowpos == 3 && columnpos == 2){
                         score += 1;
                         pickpos();
+                        document.getElementById("support").innerHTML=`awesome!`;
+
                     }
                 }
                 if (userref == 1){
                     if (rowpos == 1 && columnpos == 3){
                         score += 1;
                         pickpos();
+                        document.getElementById("support").innerHTML=`awesome!`;
+
                     }
                 }
                 if (userref == 2){
                     if (rowpos == 2 && columnpos == 3){
                         score += 1;
                         pickpos();
+                        document.getElementById("support").innerHTML=`awesome!`;
+
                     }
                 }
                 if (userref == 3){
                     if (rowpos == 3 && columnpos == 3){
                         score += 1;
                         pickpos();
+                        document.getElementById("support").innerHTML=`awesome!`;
+
                     }
                 }
                 document.getElementById("scoreboard").innerHTML=
-                `<b>score: ${score}</b>`;
+                `score: ${score}`;
             }
             function positionuserselection(userref){
                 if (userref == 7){
@@ -125,6 +145,15 @@
                 userselection.style.left = `${xpos2}px`; //moves user outline thingymajig
                 userselection.style.top = `${ypos2}px`;
             }
+            function checkpause(){
+
+                document.addEventListener('keydown', (e) => {
+                        if (e.key == "p"){
+                            paused = 0;
+                        }
+                    })
+
+            }
             function checkinput(){
                 document.addEventListener('keydown', (num) =>{
                 if (num.key == "1"){ //might be more efficient without the if statements
@@ -154,6 +183,9 @@
                  if (num.key == "9"){
                     userref = "9";
                  }
+                 if (num.key == "p"){
+                    paused = 1;
+                 }
                 
 
             } 
@@ -163,6 +195,19 @@
 
                 
             function move (row,column){
+                if (paused == 0){                
+                document.getElementById("timer").innerHTML=`time: ${time.toFixed(2)}`;
+                time -= 0.01;
+                if (time.toFixed(2) == 0.00){
+                    miss+=1;
+                }
+                document.getElementById("misses").innerHTML = `misses: ${miss}`;
+
+                if(time<=0){
+                        time =1;
+                        pickpos();
+                        document.getElementById("support").innerHTML=`too slow!`;
+                    }
                 console.log(userref);
                 xpos = (rowpos * 150) - 142; //8px dif from edge
                 ypos = (columnpos *150) - 142;
@@ -171,22 +216,38 @@
                 line.style.top = `${ypos}px`;
                 
                 
+                
                 //takes in user input
                 checkinput();
                 positionuserselection(userref);
                 updatescore();
                 console.log(score);
+                if(time <= 0.5){
+                document.getElementById("support").innerHTML=``;
+                }
+                
+                }
+                else{
+                    checkpause(); //continuously checks if user has unpaused
+                    document.getElementById("support").innerHTML=`Press p to play`;
+                }
+
                 
             }
             const rows = 3;
             const columns = 3;
                 for (let i = 0; i < rows * columns; i++) { // creates 3x3 grid 
                     document.write('<div class="item"></div>');
-                } //must be done inside div class of grid
-        setInterval(move, 100) 
+                } //must be done inside div class of grid 
+                //also must be beginning of codes, ie ignoring funcitnos
+        setInterval(move, 10) 
         </script>
     </div>
     <div id="scoreboard"></div>
+    <div class="instructions">use the number pad to play, try to hit the paler square</div>
+    <div id="timer"></div>
+    <div id="support"></div>
+    <div id="misses"></div>
     </h3> 
 </body>
 </html>
